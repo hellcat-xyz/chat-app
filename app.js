@@ -17,7 +17,6 @@ with backticks for template literals
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:${PORT}",
-    methods: ["GET","POST"]
   }
 })
 
