@@ -6,12 +6,18 @@ const app = express();
 const server = http.createServer(app)
 const { Server } = require('socket.io')
 const cors = require('cors')
+const dotenv = require('dotenv')
+dotenv.config()
+
+const PORT = process.env.PORT
 
 app.use(cors())
 
+with backticks for template literals
 const io = new Server(server, {
   cors: {
-    origin: "*"
+    origin: "http://localhost:${PORT}",
+    methods: ["GET","POST"]
   }
 })
 
