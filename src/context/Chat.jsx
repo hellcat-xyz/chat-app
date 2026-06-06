@@ -50,13 +50,16 @@ export const Chat = ({ client, token, children }) => {
 
   useEffect(() => {
     return client.onMessage((message) => {
-      setMessages((prev) => {
-        if (prev.some((item) => item.id === message.id)) return prev;
-        return [...prev, message];
-      });
+      if (message.chatId === activeChat?.chatId) {
+        setMessages((prev) => {
+          if (prev.some((item) => item.id === message.id)) return prev;
+          return [...prev, message];
+        });
+      }
+
       loadChats();
     });
-  }, [client, loadChats]);
+  }, [activeChat?.chatId, client, loadChats]);
 
   const selectChat = useCallback(
     async (chat) => {
@@ -99,11 +102,10 @@ export const Chat = ({ client, token, children }) => {
       setError("");
 
       try {
-        const { data } = await api.post("/message", {
+        await api.post("/message", {
           chatId: activeChat.chatId,
           content: trimmedContent,
         });
-        setMessages((prev) => [...prev, data.data]);
         await loadChats();
       } catch (err) {
         setError(err.response?.data?.error || "Unable to send message.");

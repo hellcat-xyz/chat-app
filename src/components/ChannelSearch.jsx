@@ -15,18 +15,17 @@ const ChannelSearch = () => {
   return (
     <form className="channel-search__container" onSubmit={handleSubmit}>
       <div className="channel-search__input__wrapper">
-        <div className="channel-search__input__icon">
+        <span className="channel-search__input__icon" aria-hidden="true">
           <SearchIcon />
-        </div>
-        <div className="channel-search__input__text">
-          <input
-            className="channel-search__input__text"
-            placeholder="Start chat by user ID"
-            type="text"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-        </div>
+        </span>
+        <input
+          className="channel-search__input__text"
+          placeholder="Search or enter user ID..."
+          title="Enter a user ID and press Enter to start a chat"
+          type="text"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+        />
       </div>
     </form>
   );

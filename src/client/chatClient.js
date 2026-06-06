@@ -4,23 +4,19 @@ import { io } from "socket.io-client";
 class ChatClient {
   constructor(url) {
     this.socket = io(url, {
-  transports: ["websocket"],
-});
+      transports: ["websocket"],
+    });
   }
 
-  connect(user) {
-    this.user = user;
-
-    this.socket.emit("join", user.id);
+  joinChat(chatId) {
+    if (!chatId) return;
+    this.socket.emit("join_chat", chatId);
   }
 
   onMessage(callback) {
-  this.socket.off("receive_message"); // remove old listener first
-  this.socket.on("receive_message", callback);
-  }
-
-  sendMessage(message) {
-    this.socket.emit("send_message", message);
+    this.socket.off("new_message");
+    this.socket.on("new_message", callback);
+    return () => this.socket.off("new_message", callback);
   }
 }
 
